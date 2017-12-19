@@ -25,8 +25,6 @@ public class Birthdays {
 	public final static SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.YYYY"); 
 	
 	
-	
-	
 	public static class Birthday{
 		
 		Date birthday;
