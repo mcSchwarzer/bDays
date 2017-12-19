@@ -30,7 +30,6 @@ public class Birthdays {
 		Date birthday;
 		Calendar cal = null;
 		
-		
 		public Birthday(int year, int month, int day){
 			this.cal = Calendar.getInstance();
 			this.cal.set(year, month-1, day);
