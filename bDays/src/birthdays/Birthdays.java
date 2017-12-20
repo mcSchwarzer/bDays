@@ -8,16 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class Birthdays {
 	
 	public enum personCategory {family, work, internet, drinking, university, rest};	// this is to specify where you know the birthdayPerson from.
 	
-	public final static String FAMILYSTRING = "Familie";
-	public final static String WORKSTRING = "Arbeit";
-	public final static String DRINKINGSTRING = "Trinken";
-	public final static String UNIVERSITYSTRING = "Hochschule";
-	public final static String RESTSTRING = "Der Ganze Rest";
+	public final static String FAMILY_STRING = "Familie";
+	public final static String WORK_STRING = "Arbeit";
+	public final static String DRINKING_STRING = "Trinken";
+	public final static String UNIVERSITY_STRING = "Hochschule";
+	public final static String REST_STRING = "Der Ganze Rest";
 	
 	public final static String MANUAL_THROW = " THROWN THIS EXCEPTION MANUALLY";
 	public final static String Not_MANUAL_THROW = " THIS EXCEPTION HAS NOT BEEN THROWN MANUALLY";
@@ -86,17 +87,29 @@ public class Birthdays {
 			return retString;
 		}
 		
-		public static String[] generateBirthdayMessage(BirthdayPerson bP){
-			String bdm0 = "Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus";
-			String bdm1 = "Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus";
-			String bdm2 = "Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus";
-			String bdm3 = "Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus";
-			String bdm4 = "Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus";
+		public static String generateBirthdayMessage(BirthdayPerson bP){
+			String[] bdmsg = 
+				{"Hi " + bP.firstName + " alles Gute zum " + bP.birthday.getAge() + " Geburtstag!! Liebe Grüße, Markus",
+						"Hey " + bP.firstName + " happy birthday zum " + bP.birthday.getAge() + " Geburtstag!!",
+						"Alles Gute zum " + bP.birthday.getAge() + " Geburtstag" + bP.firstName + "!!",
+				};		//TODO: think of a better way to do this!
 
-			
-			return null;
-			
+			switch(new Random().nextInt(3)){
+			case 0 : return bdmsg[0];
+			case 1 : return bdmsg[1];
+			case 2 : return bdmsg[2];
+			default : return "Alles Gute zum Geburtstag!!";
+			}	
 		}
+		
+		public void sendBirthdayMessageToPerson(String bdmsg){
+			
+			/**
+			 * TODO: if person has whatsapp send bdmsg else send sms
+			 * 
+			 */
+		}
+		
 	}//birthdayPerson
 
 	ArrayList<BirthdayPerson> all_BirthdayPersons;
@@ -164,11 +177,11 @@ public class Birthdays {
 	
 	public static String evalPersonCategory(BirthdayPerson bP) throws Exception{//this method is used to get the String behind the category enum
 		switch (bP.category){
-			case family: return FAMILYSTRING;
-			case work: return WORKSTRING;
-			case drinking: return DRINKINGSTRING;
-			case university: return UNIVERSITYSTRING;
-			case rest: return RESTSTRING;
+			case family: return FAMILY_STRING;
+			case work: return WORK_STRING;
+			case drinking: return DRINKING_STRING;
+			case university: return UNIVERSITY_STRING;
+			case rest: return REST_STRING;
 		default:
 			throw new Exception("The personCategory of Person" + bP.firstName + " " + bP.secondName + "is not set!");
 		}
