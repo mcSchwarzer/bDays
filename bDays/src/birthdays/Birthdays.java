@@ -25,6 +25,7 @@ public class Birthdays {
 	
 	public final static SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.YYYY"); 
 	
+	ArrayList<BirthdayPerson> all_BirthdayPersons;
 	
 	public static class Birthday{
 		
@@ -47,6 +48,10 @@ public class Birthdays {
 		}
 		public String getBirthDate(){ //returns format dd.MM.YYYY
 			return (DATEFORMAT.format(birthday));
+		}
+		public String transformToBirthdayFormat(){
+			SimpleDateFormat useableFormat = new SimpleDateFormat("dd.MM");
+			return useableFormat.format(this);
 		}
 	}
 	public static class BirthdayPerson{
@@ -112,7 +117,7 @@ public class Birthdays {
 		
 	}//birthdayPerson
 
-	ArrayList<BirthdayPerson> all_BirthdayPersons;
+
 	
 	public Birthdays(BirthdayPerson firstPerson){
 		all_BirthdayPersons = new ArrayList<BirthdayPerson>();
@@ -230,6 +235,31 @@ public class Birthdays {
 			
 		}
 		return retArrayList;
+	}
+	
+	public BirthdayPerson checkForBirthdaysTODAY(){// call this to check all birthdayPersons if bd is TODAY!
+		Date TODAY  = new Date();
+		
+		for(int i = 0; i<this.all_BirthdayPersons.size(); i++){
+			String btd = this.all_BirthdayPersons.get(i).birthday.transformToBirthdayFormat();
+			
+			SimpleDateFormat useableFormat = new SimpleDateFormat("dd.MM");
+			if(btd.equals(useableFormat.format(TODAY))){
+				System.out.println("We got a hit there!");
+				return this.all_BirthdayPersons.get(i);
+			}
+		}
+		
+		//Ye no birthday today so we can chill!
+		
+		return null;//found nothing!
+	}
+	
+	public void contextForBirthdayCheck(){//checks, sends 
+		BirthdayPerson bP = this.checkForBirthdaysTODAY();
+		
+		String msg = BirthdayPerson.generateBirthdayMessage(bP);
+		//send the msg to the whatsapp acc 
 	}
 	
 }
