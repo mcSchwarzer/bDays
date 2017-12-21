@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import psql.PostgreSQL;
+
 public class Birthdays {
 	
 	public enum personCategory {family, work, internet, drinking, university, rest};	// this is to specify where you know the birthdayPerson from.
@@ -152,33 +154,6 @@ public class Birthdays {
 	//TODO: Method to add the full ArrayList of birthdayPersons to the database! psqler ?  
 	
 	
-	//Main()
-	/*********************************************************************************************************************************************/
-	public static void main(String[] args){
-		
-		
-		Birthday Geburtstag1 = new Birthday(1998, 4, 5);
-		BirthdayPerson Geburtstagskind = new BirthdayPerson("Markus", "Schwarzer", "Josua", Geburtstag1, personCategory.drinking);
-		
-		Birthday Geburtstag2 = new Birthday(1998, 9, 1);
-		BirthdayPerson Geburtstagskind2 = new BirthdayPerson("Jan", "Schulz", "", Geburtstag2, personCategory.family);
-		
-		Birthday Geburtstag3 = new Birthday(1998, 14, 2);
-		BirthdayPerson Geburtstagskind3 = new BirthdayPerson("Werner", "Schwarzer", "Otto", Geburtstag3, personCategory.family);
-		
-		Birthdays birthdays = new Birthdays(Geburtstagskind);
-
-		birthdays.addNewBirthdayPerson(Geburtstagskind2);
-		birthdays.addNewBirthdayPerson(Geburtstagskind3);
-
-		System.out.println(birthdays);
-		
-		birthdays.log("C:\\Users\\defaultuser0\\Geburtstags_Logs\\");
-		
-
-		
-		
-	}
 	
 	public static String evalPersonCategory(BirthdayPerson bP) throws Exception{//this method is used to get the String behind the category enum
 		switch (bP.category){
@@ -191,6 +166,20 @@ public class Birthdays {
 			throw new Exception("The personCategory of Person" + bP.firstName + " " + bP.secondName + "is not set!");
 		}
 	}
+	
+	
+	public static personCategory reEvalPersoncategory(String str) throws Exception{//this method is used to transform the String from the database to the personCategory
+		switch(str){
+			case FAMILY_STRING: return personCategory.family;
+			case WORK_STRING: return personCategory.work;
+			case DRINKING_STRING: return personCategory.drinking;
+			case UNIVERSITY_STRING: return personCategory.university;
+			case REST_STRING: return personCategory.rest;
+		default: 
+			throw new Exception("The String from the Database is not one that exists in the personcategorys!");
+		}
+	}
+	
 	
 	public void log(String fP){	// logs the birthday ArrayList to a txt file with a unique name made by the current time
 		ArrayList<String> toLog = transformBirthdaysToStrings();

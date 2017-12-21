@@ -3,11 +3,15 @@ package psql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import birthdays.Birthdays;
+import birthdays.Birthdays.Birthday;
 import birthdays.Birthdays.BirthdayPerson;
+import birthdays.Birthdays.personCategory;
 
 
 
@@ -112,7 +116,7 @@ public class PostgreSQL {
 		}
 
 		if (connection != null) {
-			System.out.println("You made it, take control of your database now!");
+			System.out.println("The Database Connection is set!");
 			return connection;
 		} else {
 			System.out.println("Failed to make connection!");
@@ -124,41 +128,81 @@ public class PostgreSQL {
 		Connection c = this.connectToDB();
 		
 		Statement s = c.createStatement();
-		ResultSet rs = s.executeQuery("SELECT * from birthdayPerson NATURAL JOIN birthday");	//TODO:remove * by the parameters that i want!
+		ResultSet rs = s.executeQuery("SELECT * from birthdayPerson NATURAL JOIN birthday;");	//TODO:remove * by the parameters that i want!
 		
-		while(rs.next()){
-			int i=0;
-			rs.getString(i);
-			i++;//wtf use for!
-		}
+
+		printResultSet(rs);	
 		
-		//for(String s : rs.){
-		
-			
-			
-			
-			/**
-			 * 
-			 * TODO: String a = rs.getString(XYZ_ID_DYASXA);
-			 * 
-			 * --> into constructor
-			 * 
-			 * 
-			 */
-		//}
 		return null;
 	}
 	
 	
 	
+	public static BirthdayPerson createBPfromDB(ResultSet rs) throws Exception{ //this is used to create the birthdayPerson from resultobjekt
+		personCategory cat;
+		try{
+			cat = Birthdays.reEvalPersoncategory(rs.getString("cat"));
+		}catch(Exception e){
+			throw new Exception("There was an Error with the personCategory from the database ...");
+		}
+		
+		Birthday newBD;
+		try{
+			newBD = new Birthday(
+				rs.getInt("year"),
+				rs.getInt("month"),
+				rs.getInt("day")
+				);
+		}catch(Exception e){
+			throw new Exception("There was an Error with the construktion of the birthday from the database ...");
+
+		}
+		//birthday b = new Birthday(year, month, day);
+		BirthdayPerson newBP;
+		try{
+			newBP = new BirthdayPerson(
+					rs.getString("fname"),
+					rs.getString("sname"),
+					rs.getString("extra"),
+					newBD,
+					cat
+					);
+		}catch(Exception e){
+			throw new Exception("There was an Error with the construktion of the birthdayPerson from the database ...");
+		}	
+		//BirthdayPerson b = new  BirthdayPerson(firstName, secondName, extra, birthday, category)
+		return newBP;
+	}
 	
 	
+	public static void printResultSet(ResultSet rs) throws Exception
+	{
+	    ResultSetMetaData rsmd = rs.getMetaData();
+	    int cols = rsmd.getColumnCount();
+
+	    for(int i=1; i<=cols; i++)
+	        System.out.print(rsmd.getColumnLabel(i)+"\t");
+
+	    System.out.println("\n-------------------------------");
+
+	    while(rs.next())
+	    {
+	    	
+	    	System.out.println("fname: " + rs.getString("fname") + "\n" + "sname: " + rs.getString("sname") 
+	    	+ "\n" + "extra: " + rs.getString("extra") + "\n" + "cat: " + rs.getString("cat") + "\n" + "day: " + rs.getString("day")
+	    	+ "\n" + "month: " + rs.getString("month") + "\n" + "year: " + rs.getString("year") + "\n" );
+	    	
+	    		    	
+	    	
+	    	BirthdayPerson bP = createBPfromDB(rs);
+	    	
+	    	System.out.println(bP.toString() + "\n");
+	    	
+	    	
+	    }
+	}
 	
-	
-	
-	
-	
-	
+
 	
 	
 	
