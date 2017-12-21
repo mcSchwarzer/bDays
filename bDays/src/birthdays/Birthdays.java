@@ -27,7 +27,7 @@ public class Birthdays {
 	
 	public final static SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.YYYY"); 
 	
-	ArrayList<BirthdayPerson> all_BirthdayPersons;
+	public ArrayList<BirthdayPerson> all_BirthdayPersons;
 	
 	public static class Birthday{
 		
@@ -252,16 +252,4 @@ public class Birthdays {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

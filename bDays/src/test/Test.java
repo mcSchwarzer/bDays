@@ -10,7 +10,7 @@ public class Test {
 
 	public static void main(String[] args){
 		
-		
+		/**
 		Birthday Geburtstag1 = new Birthday(1998, 4, 5);
 		BirthdayPerson Geburtstagskind = new BirthdayPerson("Markus", "Schwarzer", "Josua", Geburtstag1, personCategory.drinking);
 		
@@ -29,11 +29,13 @@ public class Test {
 		
 		birthdays.log("C:\\Users\\defaultuser0\\Geburtstags_Logs\\");
 		
+		**/
 		
-		
+		Birthdays birthdays = new Birthdays();
 		PostgreSQL psql = new PostgreSQL("bpc", "postgres", "rfvcde4321", 5433, "localhost");
 		try {
-			psql.getBPFromDB();
+			birthdays.all_BirthdayPersons = psql.readAllData();
+			System.out.println(birthdays);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("läuft net!");

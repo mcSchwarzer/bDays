@@ -124,7 +124,7 @@ public class PostgreSQL {
 		}
 	}
 	
-	public ArrayList<BirthdayPerson> getBPFromDB() throws Exception{
+	public ArrayList<BirthdayPerson> readAllData() throws Exception{
 		Connection c = this.connectToDB();
 		
 		Statement s = c.createStatement();
@@ -133,7 +133,14 @@ public class PostgreSQL {
 
 		printResultSet(rs);	
 		
-		return null;
+		ArrayList<BirthdayPerson> bpc = new ArrayList<BirthdayPerson>();
+		
+		while(rs.next()){
+			BirthdayPerson bP = createBPfromDB(rs);
+			bpc.add(bP);
+		}
+		
+		return bpc;
 	}
 	
 	
@@ -175,51 +182,12 @@ public class PostgreSQL {
 	}
 	
 	
-	public static void printResultSet(ResultSet rs) throws Exception
-	{
-	    ResultSetMetaData rsmd = rs.getMetaData();
-	    int cols = rsmd.getColumnCount();
-
-	    for(int i=1; i<=cols; i++)
-	        System.out.print(rsmd.getColumnLabel(i)+"\t");
-
-	    System.out.println("\n-------------------------------");
-
-	    while(rs.next())
-	    {
-	    	
-	    	System.out.println("fname: " + rs.getString("fname") + "\n" + "sname: " + rs.getString("sname") 
-	    	+ "\n" + "extra: " + rs.getString("extra") + "\n" + "cat: " + rs.getString("cat") + "\n" + "day: " + rs.getString("day")
-	    	+ "\n" + "month: " + rs.getString("month") + "\n" + "year: " + rs.getString("year") + "\n" );
-	    	
-	    		    	
-	    	
+	public static void printResultSet(ResultSet rs) throws Exception{
+		System.out.println("printResult_from_Database\n");
+	    while(rs.next()){
 	    	BirthdayPerson bP = createBPfromDB(rs);
-	    	
-	    	System.out.println(bP.toString() + "\n");
-	    	
-	    	
+	    	System.out.println(bP.toString() + "\n");    	
 	    }
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
