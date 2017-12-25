@@ -3,15 +3,14 @@ package psql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import birthdays.Birthday;
 import birthdays.Birthdays;
-import birthdays.Birthdays.Birthday;
-import birthdays.Birthdays.BirthdayPerson;
-import birthdays.Birthdays.personCategory;
+import birthdays.BirthdayPerson;
+import birthdays.PersonCategory;
 
 
 
@@ -91,7 +90,6 @@ public class PostgreSQL {
 
 	public Connection connectToDB() throws Exception{// this method is directly from the internet
 		//this uses a local db from postgres ... is there a better way to do this??
-
 		System.out.println("-------- PostgreSQL JDBC Connection ------------");
 
 		try {
@@ -114,7 +112,6 @@ public class PostgreSQL {
 			e.printStackTrace();
 			return null;
 		}
-
 		if (connection != null) {
 			System.out.println("The Database Connection is set!");
 			return connection;
@@ -146,7 +143,7 @@ public class PostgreSQL {
 	
 	
 	public static BirthdayPerson createBPfromDB(ResultSet rs) throws Exception{ //this is used to create the birthdayPerson from resultobjekt
-		personCategory cat;
+		PersonCategory cat;
 		try{
 			cat = Birthdays.reEvalPersoncategory(rs.getString("cat"));
 		}catch(Exception e){
@@ -162,7 +159,6 @@ public class PostgreSQL {
 				);
 		}catch(Exception e){
 			throw new Exception("There was an Error with the construktion of the birthday from the database ...");
-
 		}
 		//birthday b = new Birthday(year, month, day);
 		BirthdayPerson newBP;

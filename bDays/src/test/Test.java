@@ -1,9 +1,6 @@
 package test;
 
 import birthdays.Birthdays;
-import birthdays.Birthdays.Birthday;
-import birthdays.Birthdays.BirthdayPerson;
-import birthdays.Birthdays.personCategory;
 import psql.PostgreSQL;
 
 public class Test {
